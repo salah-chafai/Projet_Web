@@ -1,0 +1,155 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shopping Cart{% endblock %}
+
+{% block body %}
+<div class="w-full max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-primary mb-8 text-center transform transition-all duration-300 hover:scale-105">Shopping Cart</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="bg-accent/10 border border-accent text-secondary px-4 py-3 rounded relative mb-4 transform transition-all duration-300 hover:shadow-md" role="alert">
+            <span class="block sm:inline">{{ message }}</span>
+        </div>
+    {% endfor %}
+
+    {% if products|length > 0 %}
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl">
+            <div class="p-6">
+                <div class="flow-root">
+                    <ul role="list" class="-my-6 divide-y divide-gray-200">
+                        {% for item in products %}
+                            <li class="py-6 flex transform transition-all duration-300 hover:bg-gray-50">
+                                <div class="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden transform transition-all duration-300 hover:shadow-md">
+                                    {% if item.product.image %}
+                                        <img src="{{ item.product.image }}" alt="{{ item.product.name }}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                                    {% else %}
+                                        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                            <span class="text-gray-400">No image</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="ml-4 flex-1 flex flex-col">
+                                    <div>
+                                        <div class="flex justify-between text-base font-medium text-primary">
+                                            <h3 class="transition-colors duration-300 hover:text-bright">{{ item.product.name }}</h3>
+                                            <p class="ml-4 transition-colors duration-300 hover:text-bright">${{ item.subtotal|number_format(2) }}</p>
+                                        </div>
+                                        <p class="mt-1 text-sm text-secondary">{{ item.product.brand }} - {{ item.product.scale }}</p>
+                                    </div>
+                                    <div class="flex-1 flex items-end justify-between text-sm">
+                                        <div class="flex items-center">
+                                            <form action="{{ path('app_cart_update', {'id': item.product.id}) }}" method="POST" class="flex items-center">
+                                                <label for="quantity" class="mr-2 text-secondary transition-colors duration-300 hover:text-primary">Qty</label>
+                                                <input type="number" name="quantity" id="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}"
+                                                       class="w-16 rounded-md border-gray-300 shadow-sm focus:border-bright focus:ring-bright transition-all duration-300 hover:border-bright">
+                                                <button type="submit" class="ml-2 text-bright hover:text-accent transition-colors duration-300">Update</button>
+                                            </form>
+                                        </div>
+
+                                        <div class="flex">
+                                            <a href="{{ path('app_cart_remove', {'id': item.product.id}) }}" 
+                                               class="font-medium text-red-600 hover:text-red-500 transition-colors duration-300">
+                                                Remove
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+                <div class="flex justify-between text-base font-medium text-primary">
+                    <p class="transition-colors duration-300 hover:text-bright">Subtotal</p>
+                    <p class="transition-colors duration-300 hover:text-bright">${{ total|number_format(2) }}</p>
+                </div>
+                <p class="mt-0.5 text-sm text-secondary">Shipping and taxes calculated at checkout.</p>
+                <div class="mt-6">
+                    <button id="checkout-button"
+                            class="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-primary hover:bg-bright mb-4 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                        Checkout
+                    </button>
+                    <a href="{{ path('app_product_index') }}"
+                       class="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-bright hover:bg-accent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                        Continue Shopping
+                    </a>
+                </div>
+
+                <div id="checkout-popup" class="hidden fixed inset-0 bg-black bg-opacity-0 flex items-center justify-center z-50 transition-all duration-300">
+                    <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full transform transition-all duration-500 opacity-0 translate-y-8">
+                        <p class="text-gray-500 italic text-center">This functionality isn't implemented.</p>
+                        <div class="mt-4 flex justify-center">
+                            <button id="close-popup" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors duration-300">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center py-12 transform transition-all duration-300 hover:scale-105">
+            <h2 class="text-2xl font-semibold text-primary">Your cart is empty</h2>
+            <p class="mt-2 text-secondary">Add some products to your cart to see them here.</p>
+            <div class="mt-6">
+                <a href="{{ path('app_product_index') }}" 
+                   class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-bright hover:bg-accent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    Browse Products
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkoutButton = document.getElementById('checkout-button');
+        const checkoutPopup = document.getElementById('checkout-popup');
+        const closePopup = document.getElementById('close-popup');
+
+        if (checkoutButton && checkoutPopup && closePopup) {
+            checkoutButton.addEventListener('click', function() {
+                // First show the container but with opacity 0
+                checkoutPopup.classList.remove('hidden');
+
+                // Force a reflow to make sure the transition works
+                void checkoutPopup.offsetWidth;
+
+                // Add the background fade in
+                checkoutPopup.classList.add('bg-opacity-30');
+
+                // Get the popup content container
+                const popupContent = checkoutPopup.querySelector('div');
+
+                // Start the slide-up and fade-in animation
+                setTimeout(() => {
+                    popupContent.classList.remove('opacity-0', 'translate-y-8');
+                }, 10);
+            });
+
+            const hidePopup = function() {
+                // Animate out
+                const popupContent = checkoutPopup.querySelector('div');
+                popupContent.classList.add('opacity-0', 'translate-y-8');
+                checkoutPopup.classList.remove('bg-opacity-30');
+
+                // Wait for animation to finish before hiding
+                setTimeout(() => {
+                    checkoutPopup.classList.add('hidden');
+                }, 500);
+            };
+
+            closePopup.addEventListener('click', hidePopup);
+
+            // Close popup when clicking outside of it
+            checkoutPopup.addEventListener('click', function(event) {
+                if (event.target === checkoutPopup) {
+                    hidePopup();
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

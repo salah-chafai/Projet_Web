@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+<div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+        <h1 class="text-3xl font-bold tracking-tight text-primary sm:text-4xl transform transition-all duration-300 hover:scale-105">Our Collection</h1>
+        <p class="mt-4 text-lg text-secondary">Discover our exclusive collection of miniature cars</p>
+    </div>
+
+    <div class="mt-12 mb-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {% for product in products %}
+            <div class="group relative bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                <div class="relative h-48 w-full overflow-hidden rounded-t-lg bg-gray-200">
+                    <img src="{{ product.image }}" alt="{{ product.name }}" class="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-medium text-primary transition-colors duration-300 group-hover:text-bright">
+                        <a href="{{ path('app_product_show', {'id': product.id}) }}" class="hover:underline">
+                            {{ product.name }}
+                        </a>
+                    </h3>
+                    <p class="mt-1 text-sm text-secondary">{{ product.brand }} - {{ product.scale }}</p>
+                    <div class="mt-4 flex items-center justify-between">
+                        <p class="text-lg font-medium text-primary transition-colors duration-300 group-hover:text-bright">
+                            ${{ product.price|number_format(2) }}
+                        </p>
+                        <a href="{{ path('app_product_show', {'id': product.id}) }}" 
+                           class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-bright hover:bg-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bright transition-all duration-300 transform hover:scale-105 hover:shadow-md">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-span-full text-center py-12">
+                <p class="text-gray-500 text-lg">No products available yet.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

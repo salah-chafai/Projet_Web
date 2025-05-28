@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to Miniature Cars{% endblock %}
+
+{% block main_class %}!mt-0{% endblock %}
+
+{% block body %}
+    {# Hero Section #}
+    <div class="relative bg-primary">
+        <div class="absolute inset-0">
+            <img class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
+                 src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                 alt="Hero background">
+            <div class="absolute inset-0 bg-primary mix-blend-multiply"></div>
+        </div>
+        <div class="relative max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl transform transition-all duration-300 hover:scale-105">
+                Miniature Cars Collection
+            </h1>
+            <p class="mt-6 text-xl text-accent max-w-3xl transition-colors duration-300 hover:text-bright">
+                Discover our exclusive collection of high-quality miniature cars. From classic models to modern supercars, 
+                each piece is crafted with attention to detail and precision.
+            </p>
+            <div class="mt-10">
+                <a href="{{ path('app_product_index') }}" 
+                   class="inline-block bg-bright py-3 px-8 border border-transparent rounded-md text-base font-medium text-white hover:bg-accent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    Browse Collection
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {# Featured Products Section #}
+    <div class="bg-white">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold tracking-tight text-primary sm:text-4xl transform transition-all duration-300 hover:scale-105">
+                    Featured Models
+                </h2>
+                <p class="mt-4 max-w-2xl mx-auto text-xl text-secondary transition-colors duration-300 hover:text-primary">
+                    Explore our handpicked selection of premium miniature cars
+                </p>
+            </div>
+
+            <div class="mt-12 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                {% for product in featuredProducts %}
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                        {% if product.image %}
+                            <img class="h-48 w-full object-cover transition-transform duration-500 hover:scale-110" 
+                                 src="{{ product.image }}" 
+                                 alt="{{ product.name }}">
+                        {% else %}
+                            <div class="h-48 w-full bg-gray-200 flex items-center justify-center">
+                                <span class="text-gray-400">No image</span>
+                            </div>
+                        {% endif %}
+                        <div class="p-6">
+                            <div class="uppercase tracking-wide text-sm text-bright font-semibold transition-colors duration-300 hover:text-accent">
+                                {{ product.brand }}
+                            </div>
+                            <h3 class="mt-2 text-xl font-bold text-primary transition-colors duration-300 hover:text-bright">
+                                {{ product.name }}
+                            </h3>
+                            <p class="mt-2 text-secondary line-clamp-2 transition-colors duration-300 hover:text-primary">
+                                {{ product.description }}
+                            </p>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="text-2xl font-bold text-primary transition-colors duration-300 hover:text-bright">
+                                    ${{ product.price|number_format(2) }}
+                                </span>
+                                <a href="{{ path('app_product_show', {'id': product.id}) }}" 
+                                   class="bg-bright text-white px-4 py-2 rounded-md hover:bg-accent focus:outline-none focus:ring-2 focus:ring-bright focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 hover:shadow-md">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="{{ path('app_product_index') }}" 
+                   class="inline-block bg-bright text-white px-8 py-3 rounded-md text-base font-medium hover:bg-accent focus:outline-none focus:ring-2 focus:ring-bright focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    View All Models
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {# Features Section #}
+    <div class="bg-gray-50">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl font-extrabold text-primary sm:text-4xl transform transition-all duration-300 hover:scale-105">
+                    Why Choose Our Miniature Cars?
+                </h2>
+            </div>
+            <div class="mt-12 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="bg-white rounded-lg shadow-lg p-6 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                    <div class="text-bright text-4xl mb-4 transition-transform duration-300 hover:scale-110">🎯</div>
+                    <h3 class="text-lg font-medium text-primary transition-colors duration-300 hover:text-bright">Premium Quality</h3>
+                    <p class="mt-2 text-secondary transition-colors duration-300 hover:text-primary">Each model is crafted with precision and attention to detail.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                    <div class="text-bright text-4xl mb-4 transition-transform duration-300 hover:scale-110">🚚</div>
+                    <h3 class="text-lg font-medium text-primary transition-colors duration-300 hover:text-bright">Fast Shipping</h3>
+                    <p class="mt-2 text-secondary transition-colors duration-300 hover:text-primary">Quick and secure delivery to your doorstep.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                    <div class="text-bright text-4xl mb-4 transition-transform duration-300 hover:scale-110">💎</div>
+                    <h3 class="text-lg font-medium text-primary transition-colors duration-300 hover:text-bright">Authentic Models</h3>
+                    <p class="mt-2 text-secondary transition-colors duration-300 hover:text-primary">Officially licensed replicas from top manufacturers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

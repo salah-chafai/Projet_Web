@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+        {% block stylesheets %}
+            <script src="https://cdn.tailwindcss.com"></script>
+            <script>
+                tailwind.config = {
+                    theme: {
+                        extend: {
+                            colors: {
+                                primary: '#274060',
+                                secondary: '#335C81',
+                                accent: '#65AFFF',
+                                dark: '#1B2845',
+                                bright: '#5899E2',
+                            }
+                        }
+                    }
+                }
+            </script>
+            <style>
+                html, body {
+                    height: 100%;
+                    min-height: 100vh;
+                    overflow-x: hidden;
+                }
+                body {
+                    display: flex;
+                    flex-direction: column;
+                }
+                main {
+                    flex: 1 0 auto;
+                }
+            </style>
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body class="bg-gray-50 font-['JetBrains_Mono']">
+        <nav class="bg-primary shadow-lg">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center py-4">
+                    <a href="{{ path('app_home') }}" class="text-2xl font-bold text-white">Miniature Cars</a>
+                    <div class="flex items-center space-x-4">
+                        <a href="{{ path('app_home') }}" class="text-white hover:text-accent">Home</a>
+                        <a href="{{ path('app_product_index') }}" class="text-white hover:text-accent">Products</a>
+                        <a href="{{ path('app_cart_index') }}" class="text-white hover:text-accent">
+                            Cart{% if app.session.get('cart')|length > 0 %} ({{ app.session.get('cart')|length }}){% endif %}
+                        </a>
+                        {% if app.user %}
+                            <a href="{{ path('app_logout') }}" class="text-white hover:text-accent">Logout</a>
+                        {% else %}
+                            <a href="{{ path('app_login') }}" class="text-white hover:text-accent">Login</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="mt-8 {% block main_class %}{% endblock %}">
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="bg-primary shadow-lg mt-auto">
+            <div class="container mx-auto px-4 py-6">
+                <p class="text-center text-white">&copy; {{ "now"|date("Y") }} Miniature Cars. All rights reserved.</p>
+            </div>
+        </footer>
+    </body>
+</html>

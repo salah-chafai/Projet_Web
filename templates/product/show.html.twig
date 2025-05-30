@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block body %}
+<div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="lg:grid lg:grid-cols-2 lg:gap-x-8">
+        <div class="lg:col-span-1">
+            <div class="relative h-96 w-full overflow-hidden rounded-lg bg-gray-200">
+                <img src="{{ product.image }}" alt="{{ product.name }}" class="h-full w-full object-cover object-center">
+            </div>
+        </div>
+
+        <div class="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+            <h1 class="text-3xl font-bold tracking-tight text-primary transform transition-all duration-300 hover:scale-105">{{ product.name }}</h1>
+            
+            <div class="mt-3">
+                <h2 class="sr-only">Product information</h2>
+                <p class="text-3xl tracking-tight text-primary transition-colors duration-300 hover:text-bright">${{ product.price|number_format(2) }}</p>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="sr-only">Description</h3>
+                <div class="space-y-6 text-base text-secondary">
+                    <p class="transition-colors duration-300 hover:text-primary">{{ product.description }}</p>
+                </div>
+            </div>
+
+            <div class="mt-6 space-y-2">
+                <div class="flex items-center group">
+                    <h3 class="text-sm font-medium text-primary transition-colors duration-300 group-hover:text-bright">Brand:</h3>
+                    <p class="ml-2 text-sm text-secondary transition-colors duration-300 group-hover:text-primary">{{ product.brand }}</p>
+                </div>
+                <div class="flex items-center group">
+                    <h3 class="text-sm font-medium text-primary transition-colors duration-300 group-hover:text-bright">Scale:</h3>
+                    <p class="ml-2 text-sm text-secondary transition-colors duration-300 group-hover:text-primary">{{ product.scale }}</p>
+                </div>
+                <div class="flex items-center group">
+                    <h3 class="text-sm font-medium text-primary transition-colors duration-300 group-hover:text-bright">Stock:</h3>
+                    <p class="ml-2 text-sm text-secondary transition-colors duration-300 group-hover:text-primary">{{ product.stock }} units available</p>
+                </div>
+            </div>
+
+            <div class="mt-10 flex">
+                <a href="{{ path('app_cart_add', {'id': product.id}) }}" 
+                   class="flex w-full items-center justify-center rounded-md border border-transparent bg-bright px-8 py-3 text-base font-medium text-white hover:bg-accent focus:outline-none focus:ring-2 focus:ring-bright focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    Add to Cart
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

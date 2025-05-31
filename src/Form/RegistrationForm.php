@@ -53,6 +53,11 @@ class RegistrationForm extends AbstractType
                     ]),
                 ],
             ])
+            ->add('rememberMe', CheckboxType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'Remember me',
+            ])
         ;
     }
 

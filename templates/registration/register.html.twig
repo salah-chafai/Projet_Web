@@ -17,6 +17,22 @@
             </p>
         </div>
 
+        {% for message in app.flashes('success') %}
+            <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
+                <div class="bg-accent/10 border border-accent text-secondary px-4 py-3 rounded relative transform transition-all duration-300 hover:shadow-md" role="alert">
+                    <span class="block sm:inline">{{ message }}</span>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative transform transition-all duration-300 hover:shadow-md" role="alert">
+                    <span class="block sm:inline">{{ message }}</span>
+                </div>
+            </div>
+        {% endfor %}
+
     {{ form_errors(registrationForm) }}
 
         <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
@@ -55,10 +71,20 @@
                     </div>
                 </div>
 
+                <div class="flex items-center my-4">
+                    {{ form_widget(registrationForm.rememberMe, {'attr': {
+                        'class': 'h-4 w-4 text-bright focus:ring-bright border-gray-300 rounded transition-colors duration-300'
+                    }}) }}
+                    {{ form_label(registrationForm.rememberMe, null, {'label_attr': {'class': 'ml-2 block text-sm text-gray-700'}}) }}
+                </div>
+
                 <div>
                     <button type="submit" class="flex w-full justify-center rounded-md border border-transparent bg-bright py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-accent focus:outline-none focus:ring-2 focus:ring-bright focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                         Register
                     </button>
                 </div>
                 {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -11,6 +11,12 @@
             <span class="block sm:inline">{{ message }}</span>
         </div>
     {% endfor %}
+    
+    {% for message in app.flashes('error') %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 transform transition-all duration-300 hover:shadow-md" role="alert">
+            <span class="block sm:inline">{{ message }}</span>
+        </div>
+    {% endfor %}
 
     {% if products|length > 0 %}
         <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl">
@@ -18,44 +24,7 @@
                 <div class="flow-root">
                     <ul role="list" class="-my-6 divide-y divide-gray-200">
                         {% for item in products %}
-                            <li class="py-6 flex transform transition-all duration-300 hover:bg-gray-50">
-                                <div class="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden transform transition-all duration-300 hover:shadow-md">
-                                    {% if item.product.image %}
-                                        <img src="{{ item.product.image }}" alt="{{ item.product.name }}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                                    {% else %}
-                                        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-                                            <span class="text-gray-400">No image</span>
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="ml-4 flex-1 flex flex-col">
-                                    <div>
-                                        <div class="flex justify-between text-base font-medium text-primary">
-                                            <h3 class="transition-colors duration-300 hover:text-bright">{{ item.product.name }}</h3>
-                                            <p class="ml-4 transition-colors duration-300 hover:text-bright">${{ item.subtotal|number_format(2) }}</p>
-                                        </div>
-                                        <p class="mt-1 text-sm text-secondary">{{ item.product.brand }} - {{ item.product.scale }}</p>
-                                    </div>
-                                    <div class="flex-1 flex items-end justify-between text-sm">
-                                        <div class="flex items-center">
-                                            <form action="{{ path('app_cart_update', {'id': item.product.id}) }}" method="POST" class="flex items-center">
-                                                <label for="quantity" class="mr-2 text-secondary transition-colors duration-300 hover:text-primary">Qty</label>
-                                                <input type="number" name="quantity" id="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}"
-                                                       class="w-16 rounded-md border-gray-300 shadow-sm focus:border-bright focus:ring-bright transition-all duration-300 hover:border-bright">
-                                                <button type="submit" class="ml-2 text-bright hover:text-accent transition-colors duration-300">Update</button>
-                                            </form>
-                                        </div>
-
-                                        <div class="flex">
-                                            <a href="{{ path('app_cart_remove', {'id': item.product.id}) }}" 
-                                               class="font-medium text-red-600 hover:text-red-500 transition-colors duration-300">
-                                                Remove
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                            {% include 'cart/_cart_item.html.twig' with {'item': item} %}
                         {% endfor %}
                     </ul>
                 </div>
@@ -67,14 +36,21 @@
                 </div>
                 <p class="mt-0.5 text-sm text-secondary">Shipping and taxes calculated at checkout.</p>
                 <div class="mt-6">
-                    <button id="checkout-button"
+                    <a href="{{ path('app_cart_checkout') }}"
                             class="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-primary hover:bg-bright mb-4 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                         Checkout
-                    </button>
-                    <a href="{{ path('app_product_index') }}"
-                       class="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-bright hover:bg-accent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-                        Continue Shopping
                     </a>
+                    <div class="flex space-x-4">
+                        <a href="{{ path('app_product_index') }}"
+                           class="flex-1 flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-bright hover:bg-accent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                            Continue Shopping
+                        </a>
+                        <a href="{{ path('app_cart_clear') }}"
+                           class="flex-1 flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-red-500 hover:bg-red-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                           onclick="return confirm('Are you sure you want to clear your cart?')">
+                            Clear Cart
+                        </a>
+                    </div>
                 </div>
 
                 <div id="checkout-popup" class="hidden fixed inset-0 bg-black bg-opacity-0 flex items-center justify-center z-50 transition-all duration-300">

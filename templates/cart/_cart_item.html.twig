@@ -1,0 +1,45 @@
+{# filepath: /home/x-0r/Downloads/projet-web/templates/cart/_cart_item.html.twig #}
+<li class="py-6 flex transform transition-all duration-300 hover:bg-gray-50">
+    <div class="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden transform transition-all duration-300 hover:shadow-md">
+        {% if item.product.image %}
+            <img src="{{ item.product.image }}" alt="{{ item.product.name }}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+        {% else %}
+            <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                <span class="text-gray-400">No image</span>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="ml-4 flex-1 flex flex-col">
+        <div>
+            <div class="flex justify-between text-base font-medium text-primary">
+                <h3 class="transition-colors duration-300 hover:text-bright">
+                    <a href="{{ path('app_product_show', {'id': item.product.id}) }}">{{ item.product.name }}</a>
+                </h3>
+                <p class="ml-4 transition-colors duration-300 hover:text-bright">${{ item.subtotal|number_format(2) }}</p>
+            </div>
+            <p class="mt-1 text-sm text-secondary">{{ item.product.brand }} - {{ item.product.scale }}</p>
+            
+            {% if item.product.stock < 5 %}
+                <p class="mt-1 text-xs text-red-600">Only {{ item.product.stock }} left in stock!</p>
+            {% endif %}
+        </div>
+        <div class="flex-1 flex items-end justify-between text-sm">
+            <div class="flex items-center">
+                <form action="{{ path('app_cart_update', {'id': item.product.id}) }}" method="POST" class="flex items-center">
+                    <label for="quantity-{{ item.product.id }}" class="mr-2 text-secondary transition-colors duration-300 hover:text-primary">Qty</label>
+                    <input type="number" name="quantity" id="quantity-{{ item.product.id }}" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}"
+                           class="w-16 rounded-md border-gray-300 shadow-sm focus:border-bright focus:ring-bright transition-all duration-300 hover:border-bright">
+                    <button type="submit" class="ml-2 text-bright hover:text-accent transition-colors duration-300">Update</button>
+                </form>
+            </div>
+
+            <div class="flex">
+                <a href="{{ path('app_cart_remove', {'id': item.product.id}) }}" 
+                   class="font-medium text-red-600 hover:text-red-500 transition-colors duration-300">
+                    Remove
+                </a>
+            </div>
+        </div>
+    </div>
+</li>

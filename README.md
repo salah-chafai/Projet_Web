@@ -19,3 +19,11 @@ Once the database is properly setup, run the following command to start the web 
 ```
 symfony server:start
 ```
+
+## Contributors
+
+This project has been worked on by:
+- Salah Chafai (github: [salah-chafai](https://github.com/salah-chafai))
+- Oussama Khedhiri (github: [KhOussamaa](https://github.com/KhOussamaa))
+- Med Amine Ben Fraj (github: [lowlevelguy](https://github.com/lowlevelguy))
+- Youssef Eladab (github: [EladabYoussef](https://github.com/EladabYoussef))

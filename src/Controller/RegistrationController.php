@@ -24,36 +24,15 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('plainPassword')->getData();
 
-            // Additional validation
-            if (strlen($plainPassword) < 6) {
-                $this->addFlash('error', 'Password must be at least 6 characters long');
-                return $this->redirectToRoute('app_register');
-            }
-
-            // Check if user already exists
-            $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
-            if ($existingUser) {
-                $this->addFlash('error', 'This email is already registered');
-                return $this->redirectToRoute('app_register');
-            }
-
-            // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
             $user->setRoles(['ROLE_USER']);
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Set a flash message for successful registration
-            $this->addFlash('success', 'Registration successful! Welcome to Miniature Cars.');
-            
-            // Get remember me option
-            $rememberMe = $form->get('rememberMe')->getData();
+            // do anything else you need here, like send an email
 
-            // Log the user in
-            return $security->login($user, 'form_login', 'main', [
-                'remember_me' => $rememberMe ?? false
-            ]);
+            return $security->login($user, 'form_login', 'main');
         }
 
         return $this->render('registration/register.html.twig', [

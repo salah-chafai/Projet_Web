@@ -220,26 +220,14 @@ class __TwigTemplate_913baceba5760d2b955f59d547ed64b8 extends Template
                     </div>
                 </div>
 
-                <div class=\"flex items-center my-4\">
-                    ";
-        // line 75
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["registrationForm"]) || array_key_exists("registrationForm", $context) ? $context["registrationForm"] : (function () { throw new RuntimeError('Variable "registrationForm" does not exist.', 75, $this->source); })()), "rememberMe", [], "any", false, false, false, 75), 'widget', ["attr" => ["class" => "h-4 w-4 text-bright focus:ring-bright border-gray-300 rounded transition-colors duration-300"]]);
-        // line 77
-        yield "
-                    ";
-        // line 78
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["registrationForm"]) || array_key_exists("registrationForm", $context) ? $context["registrationForm"] : (function () { throw new RuntimeError('Variable "registrationForm" does not exist.', 78, $this->source); })()), "rememberMe", [], "any", false, false, false, 78), 'label', ["label_attr" => ["class" => "ml-2 block text-sm text-gray-700"]]);
-        yield "
-                </div>
-
                 <div>
                     <button type=\"submit\" class=\"flex w-full justify-center rounded-md border border-transparent bg-bright py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-accent focus:outline-none focus:ring-2 focus:ring-bright focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 hover:shadow-lg\">
                         Register
                     </button>
                 </div>
                 ";
-        // line 86
-        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["registrationForm"]) || array_key_exists("registrationForm", $context) ? $context["registrationForm"] : (function () { throw new RuntimeError('Variable "registrationForm" does not exist.', 86, $this->source); })()), 'form_end');
+        // line 79
+        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["registrationForm"]) || array_key_exists("registrationForm", $context) ? $context["registrationForm"] : (function () { throw new RuntimeError('Variable "registrationForm" does not exist.', 79, $this->source); })()), 'form_end');
         yield "
             </div>
         </div>
@@ -275,7 +263,7 @@ class __TwigTemplate_913baceba5760d2b955f59d547ed64b8 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  242 => 86,  231 => 78,  228 => 77,  226 => 75,  219 => 70,  217 => 68,  212 => 66,  204 => 61,  199 => 58,  197 => 56,  192 => 54,  185 => 50,  180 => 47,  178 => 44,  173 => 42,  168 => 40,  161 => 36,  158 => 35,  148 => 31,  144 => 29,  140 => 28,  137 => 27,  127 => 23,  123 => 21,  119 => 20,  110 => 14,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  230 => 79,  219 => 70,  217 => 68,  212 => 66,  204 => 61,  199 => 58,  197 => 56,  192 => 54,  185 => 50,  180 => 47,  178 => 44,  173 => 42,  168 => 40,  161 => 36,  158 => 35,  148 => 31,  144 => 29,  140 => 28,  137 => 27,  127 => 23,  123 => 21,  119 => 20,  110 => 14,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -351,13 +339,6 @@ class __TwigTemplate_913baceba5760d2b955f59d547ed64b8 extends Template
                             'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-bright focus:border-bright sm:text-sm'
                         }}) }}
                     </div>
-                </div>
-
-                <div class=\"flex items-center my-4\">
-                    {{ form_widget(registrationForm.rememberMe, {'attr': {
-                        'class': 'h-4 w-4 text-bright focus:ring-bright border-gray-300 rounded transition-colors duration-300'
-                    }}) }}
-                    {{ form_label(registrationForm.rememberMe, null, {'label_attr': {'class': 'ml-2 block text-sm text-gray-700'}}) }}
                 </div>
 
                 <div>
